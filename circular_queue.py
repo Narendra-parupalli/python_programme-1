@@ -7,23 +7,25 @@ class que_circle:
         self.rear = 0
 
     def queue_add(self, item):
-        queue_depth=0
         if self.size == self.max_size:
-            del self.queue[self.max_size-1]
-            self.queue[self.max_size - 1] = item
-            queue_depth=1
-
-        if queue_depth==0:
-            # Add the new item to the queue
-            self.queue[self.rear] = item
-            self.rear = (self.rear + 1) % self.max_size
+            # Remove the oldest element
+            del self.queue[self.front]
+            # Move front to the next position
+            self.front = (self.front + 1) % self.max_size
+        else:
             self.size += 1
+
+        # Add the new item at the rear
+        self.queue[self.rear] = item
+        self.rear = (self.rear + 1) % self.max_size
+
 
     def display_queue(self):
         # Display the elements in the queue
         print("Circular Queue:", end=" ")
         for i in range(self.size):
-            print(self.queue.get(i, None), end=" ")
+            index = (self.front + i) % self.max_size
+            print(self.queue.get(index, None), end=" ")
         print()
 
 max_length = 5
